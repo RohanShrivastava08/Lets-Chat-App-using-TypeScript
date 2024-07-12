@@ -1,4 +1,4 @@
-# 🚀 Let-s-Chat-App-using-TypeScript
+# 🚀 Lets-Chat-App-using-TypeScript
 
 - Welcome to Let's Chat App, a real-time chat application built with HTML, CSS, TypeScript, Socket.IO, and Node.js.
 - This application is designed to provide a seamless and interactive messaging experience.
