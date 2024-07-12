@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Let's Chat App</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <script src="/socket.io/socket.io.js"></script>
+</head>
+<body>
+    <header class="header">
+        <h1><i class="fas fa-comments"></i> Let's Chat App</h1>
+    </header>
+
+    <main class="main-content">
+        <div class="container">
+            <div class="chat-container">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        <div class="online-users">
+                            <h3><i class="fas fa-users"></i> Online Users</h3>
+                            <ul class="user-list">
+                                <li><i class="fas fa-smile"></i> Sunil Singh</li>
+                                <li><i class="fas fa-coffee"></i> Virat Kohli</li>
+                                <li><i class="fas fa-pizza-slice"></i> Rohit Sharma</li>
+                                <li><i class="fas fa-book"></i>Jaspreet Bumrah</li>
+                                <li><i class="fas fa-guitar"></i>Harshal Rana</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="chat-area">
+                            <div class="chat-header">
+                                <i class="fas fa-comments"></i> Global Chat Room
+                            </div>
+                            <div class="chat-messages" id="chat"></div>
+                            <div class="message-input">
+                                <form id="messageform">
+                                    <div class="input-group">
+                                        <textarea id="message" class="form-control" placeholder="Type your message..." rows="1"></textarea>
+                                        <button type="submit" class="btn btn-send">
+                                            <i class="fas fa-paper-plane"></i> Send
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="app-info">
+                <h4><i class="fas fa-info-circle"></i> Welcome to Let's Chat App</h4>
+                <p>Experience seamless communication with our state-of-the-art messaging platform. Connect with friends, family, and colleagues in real-time.</p>
+                <div class="feature-list">
+                    <div class="feature-item">
+                        <div class="feature-icon"><i class="fas fa-bolt"></i></div>
+                        <div class="feature-title">Real-time Messaging</div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon"><i class="fas fa-user-friends"></i></div>
+                        <div class="feature-title">User Presence</div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon"><i class="fas fa-mobile-alt"></i></div>
+                        <div class="feature-title">Responsive Design</div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon"><i class="fas fa-lock"></i></div>
+                        <div class="feature-title">Secure & Private</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2024 Let's Chat App. All rights reserved. | <i class="fas fa-heart"></i> Designed with passion</p>
+    </footer>
+
+    <script>
+        $(function(){
+            var socket = io.connect();
+            var $messageForm = $('#messageform');
+            var $message = $('#message');
+            var $chat = $('#chat');
+            var messageCount = 0;
+
+            $messageForm.submit(function(e){
+                e.preventDefault();
+                socket.emit('Send Message', $message.val());
+                $message.val('');
+            });
+
+            socket.on('New Message', function(data) {
+                messageCount++;
+                var messageClass = messageCount % 2 === 0 ? 'message-sent' : 'message-received';
+                $chat.append('<div class="message ' + messageClass + '">' + data.msg + '</div>');
+                $chat.scrollTop($chat[0].scrollHeight);
+            });
+        });
+    </script>
+</body>
+</html>
