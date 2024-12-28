@@ -2,6 +2,7 @@
 
 - Welcome to Let's Chat App, a real-time chat application built with HTML, CSS, TypeScript, Socket.IO, and Node.js.
 - This application is designed to provide a seamless and interactive messaging experience.
+- Check live Project: https://lets-chat-app-using-type-script.vercel.app/
 
 ![Screenshot (201)](https://github.com/user-attachments/assets/14be7779-a5fa-457c-93d1-ec26f586f1bf)
 
